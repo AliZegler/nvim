@@ -107,6 +107,41 @@ return {
                         end,
                     })
                 end,
+                ["tailwindcss"] = function()
+                    lspconfig.tailwindcss.setup({
+                        filetypes = {
+                            "html",
+                            "css",
+                            "javascript",
+                            "javascriptreact",
+                            "typescript",
+                            "typescriptreact",
+                            "svelte",
+                            "vue",
+                        },
+                        root_dir = lspconfig.util.root_pattern(
+                            "tailwind.config.js",
+                            "tailwind.config.ts",
+                            "postcss.config.js",
+                            "package.json",
+                            ".git"
+                        ),
+                        settings = {
+                            tailwindCSS = {
+                                experimental = {
+                                    classRegex = {
+                                        "tw`([^`]*)",
+                                        'tw="([^"]*)',
+                                    },
+                                },
+                                lint = {
+                                    cssConflict = "warning",
+                                    invalidApply = "error",
+                                },
+                            },
+                        },
+                    })
+                end,
 
                 -- default handler for other servers
                 function(server_name)
@@ -114,5 +149,6 @@ return {
                 end,
             },
         })
+        lsp_zero.setup()
     end,
 }
